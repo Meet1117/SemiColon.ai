@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — SemiColon.ai</title>
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/toast.css" asp-append-version="true" />
+</head>
+<body>
+    <main class="auth-page">
+        <div class="auth-card">
+            <div class="brand">
+                <span class="brand-mark">;</span>
+                <span class="brand-name">SemiColon.ai</span>
+            </div>
+
+            @if (TempData["Info"] is string info)
+            {
+                <div class="alert alert-info">@info</div>
+            }
+            @if (TempData["Error"] is string error)
+            {
+                <div class="alert alert-error">@error</div>
+            }
+
+            @RenderBody()
+        </div>
+    </main>
+
+    <partial name="_Toast" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/auth.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

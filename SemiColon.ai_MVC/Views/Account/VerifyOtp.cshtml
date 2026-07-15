@@ -1,0 +1,29 @@
+@model VerifyOtpViewModel
+@{
+    ViewData["Title"] = "Verify your email";
+    Layout = "_AuthLayout";
+}
+
+<h1 class="auth-title">Check your email</h1>
+<p class="auth-subtitle">We sent a 6-digit code to <b>@Model.Email</b>.<br />It expires in 5 minutes.</p>
+
+<form asp-action="VerifyOtp" method="post">
+    <input type="hidden" asp-for="Email" />
+    <input type="hidden" asp-for="Purpose" />
+
+    <div class="form-group">
+        <input asp-for="Code" class="otp-input" maxlength="6" inputmode="numeric"
+               autocomplete="one-time-code" placeholder="······" autofocus />
+        <span asp-validation-for="Code" class="field-error"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Verify</button>
+</form>
+
+<form asp-action="ResendOtp" method="post" class="resend-form">
+    <input type="hidden" name="email" value="@Model.Email" />
+    <input type="hidden" name="purpose" value="@Model.Purpose" />
+    <button type="submit">Resend code</button>
+</form>
+
+<p class="auth-links"><a asp-action="Login">Back to sign in</a></p>

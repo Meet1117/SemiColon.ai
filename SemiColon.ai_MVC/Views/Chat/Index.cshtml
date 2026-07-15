@@ -1,0 +1,179 @@
+@model List<ChatSession>
+@{
+    Layout = null;
+    var currentUser = (AppUser)ViewBag.CurrentUser;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SemiColon.ai</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/chat.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/toast.css" asp-append-version="true" />
+</head>
+<body>
+    @Html.AntiForgeryToken()
+
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <span class="brand-mark">;</span>
+                    <span class="brand-name">SemiColon.ai</span>
+                </div>
+                <button class="icon-btn sidebar-close" id="sidebarClose" title="Close sidebar">✕</button>
+            </div>
+
+            <button class="new-chat-btn" id="newChatBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                New chat
+            </button>
+
+            <div class="session-list" id="sessionList">
+                @foreach (var s in Model)
+                {
+                    <div class="session-item" data-id="@s.Id">
+                        <span class="session-title">@s.Title</span>
+                        <div class="session-actions">
+                            <button class="icon-btn rename-btn" title="Rename">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+                            </button>
+                            <button class="icon-btn delete-btn" title="Delete">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    @if (currentUser.AvatarUrl is not null)
+                    {
+                        <img class="user-avatar-img" src="@currentUser.AvatarUrl" alt="" referrerpolicy="no-referrer" />
+                    }
+                    else
+                    {
+                        <div class="user-avatar">@currentUser.FullName[0]</div>
+                    }
+                    <div class="user-meta">
+                        <div class="user-name">@currentUser.FullName <span class="name-semicolon">;</span></div>
+                        <div class="user-email">@currentUser.Email</div>
+                    </div>
+                </div>
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="logout-btn" title="Sign out">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="chat-main">
+            <header class="chat-header">
+                <button class="icon-btn sidebar-toggle" id="sidebarToggle" title="Open sidebar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                </button>
+                <span class="chat-header-title" id="chatTitle">New chat</span>
+
+                <button type="button" class="header-profile" id="profileOpen" title="Your profile">
+                    @if (currentUser.AvatarUrl is not null)
+                    {
+                        <img class="header-avatar" src="@currentUser.AvatarUrl" alt="" referrerpolicy="no-referrer" />
+                    }
+                    else
+                    {
+                        <span class="header-avatar-fallback">@currentUser.FullName[0]</span>
+                    }
+                </button>
+            </header>
+
+            <div class="messages" id="messages">
+                <div class="welcome" id="welcome" data-name="@currentUser.FullName.Split(' ')[0]">
+                    <div class="welcome-mark">;</div>
+                    <h1 id="welcomeGreeting">How can I help you today?</h1>
+                    <p id="welcomeTagline">Ask me anything — questions, ideas, or code.</p>
+                </div>
+            </div>
+
+            <button class="scroll-down-btn" id="scrollDownBtn" title="Scroll to bottom">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+            </button>
+
+            <div class="composer">
+                <div class="composer-box">
+                    <textarea id="messageInput" rows="1" placeholder="Message SemiColon.ai" maxlength="4000"></textarea>
+                    <button id="sendBtn" title="Send" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                    </button>
+                </div>
+                <p class="composer-hint">SemiColon.ai can make mistakes. Check important info.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Profile modal -->
+    <div class="modal-overlay" id="profileOverlay" hidden>
+        <div class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+            <button type="button" class="icon-btn modal-close" id="profileClose" title="Close">✕</button>
+
+            <h2 class="modal-title" id="profileTitle">Your profile</h2>
+            <p class="modal-subtitle">Manage your account details.</p>
+
+            <div class="profile-avatar-block">
+                @if (currentUser.AvatarUrl is not null)
+                {
+                    <img class="profile-avatar" src="@currentUser.AvatarUrl" alt="Profile photo" referrerpolicy="no-referrer" />
+                }
+                else
+                {
+                    <div class="profile-avatar-fallback">@currentUser.FullName[0]</div>
+                }
+
+                <div class="avatar-actions">
+                    <form asp-controller="Account" asp-action="UploadAvatar" method="post" enctype="multipart/form-data" id="avatarForm">
+                        <input type="file" name="photo" id="photoInput" accept=".jpg,.jpeg,.png,.webp" hidden />
+                        <button type="button" class="btn-small" onclick="document.getElementById('photoInput').click()">Change photo</button>
+                    </form>
+                    @if (currentUser.AvatarUrl is not null)
+                    {
+                        <form asp-controller="Account" asp-action="RemoveAvatar" method="post">
+                            <button type="submit" class="btn-small danger">Remove</button>
+                        </form>
+                    }
+                </div>
+            </div>
+
+            <form asp-controller="Account" asp-action="UpdateProfile" method="post">
+                <div class="form-group">
+                    <label for="fullNameInput">Full name</label>
+                    <input id="fullNameInput" name="fullName" value="@currentUser.FullName" maxlength="100" required autocomplete="name" />
+                </div>
+
+                <div class="form-group">
+                    <label for="emailInput">Email</label>
+                    <input id="emailInput" value="@currentUser.Email" readonly />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <div class="profile-meta">
+                    <span>Joined: <b>@currentUser.CreatedAt.ToString("dd MMM yyyy")</b></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <partial name="_Toast" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.5/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+</body>
+</html>

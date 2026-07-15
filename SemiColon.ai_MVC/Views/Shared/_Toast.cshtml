@@ -1,0 +1,8 @@
+<div class="toast-stack" id="toastStack"></div>
+<script src="~/js/toast.js" asp-append-version="true"></script>
+@if (TempData["Toast"] is string toastMessage)
+{
+    <script>
+        showToast(@Json.Serialize(toastMessage), @Json.Serialize(TempData["ToastType"] as string ?? "success"));
+    </script>
+}

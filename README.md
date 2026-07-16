@@ -2,7 +2,7 @@
 
 A clean, minimal AI chatbot built with **ASP.NET Core MVC** — think of it as your own little ChatGPT, powered by **Google Gemini**, with a proper login system, email OTP verification, chat history, and a UI that stays out of your way.
 
-Built with ❤️ by [Meet Patel](https://patelmeet.vercel.app) — Software Developer & AI Enthusiast.
+Developed by [Meet Patel](https://patelmeet.vercel.app) — Software Developer & AI Enthusiast.
 
 ---
 

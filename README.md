@@ -1,6 +1,6 @@
 # SemiColon.ai `;`
 
-A clean, minimal AI chatbot built with **ASP.NET Core MVC** — think of it as your own little ChatGPT, powered by **Google Gemini**, with a proper login system, email OTP verification, chat history, and a UI that stays out of your way.
+A clean, minimal AI chatbot built with **ASP.NET Core MVC** — think of it as your own little ChatGPT, powered by **Google SemiColon.ai**, with a proper login system, email OTP verification, chat history, and a UI that stays out of your way.
 
 Developed by [Meet Patel](https://patelmeet.vercel.app) — Software Developer & AI Enthusiast.
 
@@ -9,7 +9,7 @@ Developed by [Meet Patel](https://patelmeet.vercel.app) — Software Developer &
 ## ✨ What can it do?
 
 **Chat**
-- Ask anything and get humanize, well-formatted answers from Gemini.
+- Ask anything and get humanize, well-formatted answers from SemiColon.ai.
 - Replies stream in with a smooth typing animation — just like the big AI apps.
 - Ask for code and you get a **VS Code-style dark code block** with syntax colors and a one-click **Copy code** button.
 - Every new chat gets an **automatic title** based on what you asked.
@@ -28,8 +28,8 @@ Developed by [Meet Patel](https://patelmeet.vercel.app) — Software Developer &
 **Extras**
 - Profile modal — change your name, upload a profile photo (or remove it), all without leaving the chat.
 - Toast notifications in the top-right for logins, logouts, saves, and errors.
-- **Rate limiting** — 10 messages per minute per user, so nobody can spam the API (and your Gemini bill stays tiny).
-- Automatic **fallback model** — if the main Gemini model is overloaded, the app quietly retries with a backup one.
+- **Rate limiting** — 10 messages per minute per user, so nobody can spam the API (and your SemiColon.ai bill stays tiny).
+- Automatic **fallback model** — if the main SemiColon.ai model is overloaded, the app quietly retries with a backup one.
 
 ---
 
@@ -39,7 +39,7 @@ Developed by [Meet Patel](https://patelmeet.vercel.app) — Software Developer &
 |---|---|
 | Backend | ASP.NET Core 8 MVC (C#) |
 | Database | SQL Server + Entity Framework Core |
-| AI | Google Gemini API (configurable models) |
+| AI | Google SemiColon.ai API (configurable models) |
 | Auth | Cookie auth, email OTP, Google OAuth |
 | Email | Plain SMTP (works great with Gmail) |
 | Frontend | Razor views, vanilla JS, custom CSS — no heavy frameworks |
@@ -54,7 +54,7 @@ Developed by [Meet Patel](https://patelmeet.vercel.app) — Software Developer &
 - **SQL Server** (Express or LocalDB is fine)
 - A **Gmail account** (for sending OTP emails)
 - A **Google Cloud** account (for Google login)
-- A **Gemini API key** (free at [Google AI Studio](https://aistudio.google.com))
+- A **SemiColon.ai API key** (free at [Google AI Studio](https://aistudio.google.com))
 
 ### 2. Get the code and restore packages
 ```bash
@@ -96,9 +96,9 @@ Open `appsettings.json` and fill in each section:
    - Authorised redirect URIs: `https://localhost:7092/signin-google` and `http://localhost:5071/signin-google`
 4. Copy the Client ID & Secret into the `GoogleAuth` section.
 
-**Gemini**:
+**SemiColon.ai**:
 1. Grab a free API key from [Google AI Studio](https://aistudio.google.com).
-2. Paste it into the `Gemini` section. The models are already configured — change them anytime without touching code.
+2. Paste it into the `SemiColon.ai` section. The models are already configured — change them anytime without touching code.
 
 ### 4. Run it!
 ```bash
@@ -119,7 +119,7 @@ Then open **https://localhost:7092** in your browser.
 
 ```
 Controllers/     → AccountController (auth, OTP, profile), ChatController (chat + history)
-Services/        → GeminiService (AI calls), EmailService (SMTP), OtpService, PasswordHasher
+Services/        → SemiColon.aiService (AI calls), EmailService (SMTP), OtpService, PasswordHasher
 Models/          → Entities (AppUser, ChatSession, ChatMessage, OtpCode…) + ViewModels
 Data/            → AppDbContext (EF Core)
 Views/           → Razor pages for auth, chat, and shared partials

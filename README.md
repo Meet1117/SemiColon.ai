@@ -9,7 +9,7 @@ Developed by [Meet Patel](https://patelmeet.vercel.app) — Software Developer &
 ## ✨ What can it do?
 
 **Chat**
-- Ask anything and get polite, well-formatted answers from Gemini.
+- Ask anything and get humanize, well-formatted answers from Gemini.
 - Replies stream in with a smooth typing animation — just like the big AI apps.
 - Ask for code and you get a **VS Code-style dark code block** with syntax colors and a one-click **Copy code** button.
 - Every new chat gets an **automatic title** based on what you asked.
